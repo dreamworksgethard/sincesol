@@ -1,0 +1,309 @@
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/space-mono/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Banner-matched palette ──────────────────────────────────────────────
+   #000000 / #00000a  — pure black background
+   #1800cc            — deep royal blue (brand primary)
+   #3300ff            — electric bright blue (hover/active)
+   #a0b0ff            — soft violet-blue (text / strokes)
+   Chrome metallic    — white → silver-blue → white (heading text)
+─────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root { color-scheme: dark; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply antialiased;
+    background-color: #00000a;
+    color: #c8ccd8;
+    font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+}
+
+@layer utilities {
+  /* ─── Background chrome ───────────────────────────────────────────── */
+  .bg-lines {
+    background-image:
+      linear-gradient(rgba(24, 0, 180, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(24, 0, 180, 0.08) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .bg-radial-fade {
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 45%, transparent 78%);
+  }
+
+  /* ─── Surfaces ────────────────────────────────────────────────────── */
+  .card {
+    background-color: #05060f;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(24, 0, 204, 0.40);
+    box-shadow: 0 0 0 1px rgba(24, 0, 204, 0.14) inset, 0 28px 80px rgba(0,0,0,0.65);
+  }
+
+  /* ─── Animated border (safe, no overlay) ─────────────────────────── */
+  .anim-border2 {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(#05060f, #05060f) padding-box,
+      linear-gradient(
+        90deg,
+        rgba(24,0,204,0.95),
+        rgba(199,210,254,0.95),
+        rgba(24,0,204,0.95),
+        rgba(255,255,255,0.70),
+        rgba(24,0,204,0.95)
+      ) border-box;
+    background-size: 100% 100%, 220% 100%;
+    animation: border-flow 9s linear infinite;
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.10) inset;
+  }
+
+
+  .card-dark {
+    background-color: #00000a;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+  }
+
+  /* ─── Typography — chrome metallic (matches banner title) ────────── */
+  .gradient-text {
+    background: linear-gradient(160deg, #ffffff 0%, #d1d5db 45%, #6b7280 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .label-mono {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  /* ─── Dividers / rules ───────────────────────────────────────────── */
+  .rule-glow {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(24,0,204,0.65) 40%, rgba(51,0,255,0.50) 60%, transparent);
+  }
+
+  /* ─── Glow orb ────────────────────────────────────────────────────── */
+  .orb {
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+
+  /* ─── Neon edge border ────────────────────────────────────────────── */
+  .neon-border {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(160,184,255,0.40), rgba(24,0,204,0.60), rgba(51,0,255,0.45));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .neon-border:hover::before { opacity: 1; }
+
+  /* ─── Primary button shimmer ─────────────────────────────────────── */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
+    transform: translateX(-110%);
+  }
+
+  .btn-shine:hover::after {
+    animation: shimmer 1.6s ease-in-out;
+  }
+
+  /* ─── Number / stat highlight ─────────────────────────────────────── */
+  .stat-number {
+    background: linear-gradient(135deg, #e8eeff, #a0b0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  /* ─── Step connector line ─────────────────────────────────────────── */
+  .step-connector {
+    position: absolute;
+    top: 22px;
+    left: calc(50% + 28px);
+    right: calc(-50% + 28px);
+    height: 1px;
+    background: linear-gradient(90deg, rgba(24,0,204,0.50), rgba(24,0,204,0.08));
+  }
+
+  /* ─── Tag / badge ─────────────────────────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .badge-cyan   { border-color: rgba(160,184,255,0.30); background: rgba(160,184,255,0.07); color: #b0c8ff; }
+  .badge-brand  { border-color: rgba(24,0,204,0.50);   background: rgba(24,0,204,0.13);   color: #a0b0ff; }
+  .badge-violet { border-color: rgba(51,0,255,0.38);   background: rgba(51,0,255,0.10);   color: #b0b8ff; }
+  .badge-indigo { border-color: rgba(24,0,204,0.50);   background: rgba(24,0,204,0.13);   color: #ffffff; }
+
+  /* ─── Scrolling marquee ───────────────────────────────────────────── */
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    will-change: transform;
+    animation: scroll-x 30s linear infinite;
+  }
+
+  .marquee-track:hover { animation-play-state: paused; }
+
+  /* ─── Page-wide scroll effects ─────────────────────────────────────── */
+  .scroll-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    height: 2px;
+    transform: scaleX(var(--scroll-progress, 0));
+    transform-origin: left;
+    background: linear-gradient(90deg, #1800cc, #a0b0ff, #34d399);
+    box-shadow: 0 0 18px rgba(160, 176, 255, 0.75);
+    pointer-events: none;
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.985);
+    filter: blur(8px);
+    transition:
+      opacity 760ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 760ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 760ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform, filter;
+  }
+
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-progress {
+      display: none;
+    }
+
+    .scroll-reveal,
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+  }
+}
+
+/* ── Security section keyframes (used inline, defined here for browser) ── */
+@keyframes border-flow {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(500%); }
+}
+
+@keyframes check-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes typing-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40%           { opacity: 1;    transform: translateY(-1px); }
+}
+
+.typing-dot {
+  animation: typing-dot 1.15s ease-in-out infinite;
+}
+
+@keyframes chat-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes type-reveal {
+  from { width: 0; }
+  to   { width: var(--tw-reveal-w, 16ch); }
+}
+
+.type-reveal {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: type-reveal 900ms steps(18, end) both;
+}
+
+.type-cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: rgba(255,255,255,0.55);
+  margin-left: 6px;
+  transform: translateY(2px);
+}

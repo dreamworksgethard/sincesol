@@ -1,0 +1,426 @@
+/* ── BioMap component styles ─────────────────────────────────────── */
+
+#bio-map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #010408;
+}
+
+#bio-map-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* ── Filters ─────────────────────────────────────────────────────── */
+
+#bio-map-container .bm-filters {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 10;
+  opacity: 0.55;
+  transition: opacity 0.3s;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+#bio-map-container .bm-filters:hover,
+#bio-map-container .bm-filters:focus-within { opacity: 0.95; }
+
+#bio-map-container .bm-filter-row {
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  padding: 0 4px 0 0;
+  transition: background 0.2s;
+}
+
+#bio-map-container .bm-filter-row:hover { background: rgba(255,255,255,0.04); }
+
+#bio-map-container .bm-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 1px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: inherit;
+  letter-spacing: 0.4px;
+  transition: opacity 0.2s;
+  opacity: 0.65;
+}
+
+#bio-map-container .bm-filter-btn:hover { opacity: 1; }
+#bio-map-container .bm-filter-btn.active { opacity: 1; }
+
+#bio-map-container .bm-filter-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow 0.2s, width 0.2s, height 0.2s;
+}
+
+#bio-map-container .bm-filter-btn.active .bm-filter-dot {
+  box-shadow: 0 0 8px currentColor;
+  width: 9px;
+  height: 9px;
+}
+
+#bio-map-container .bm-filter-btn.arthropoda     { color: #00ffff; }
+#bio-map-container .bm-filter-btn.cnidaria       { color: #4488ff; }
+#bio-map-container .bm-filter-btn.myzozoa        { color: #00ff88; }
+#bio-map-container .bm-filter-btn.ctenophora     { color: #cc44ff; }
+#bio-map-container .bm-filter-btn.proteobacteria { color: #ffdd00; }
+#bio-map-container .bm-filter-btn.mollusca       { color: #ff6688; }
+#bio-map-container .bm-filter-btn.annelida       { color: #ff8844; }
+#bio-map-container .bm-filter-btn.all            { color: rgba(192,200,208,0.5); }
+
+#bio-map-container .bm-filter-wiki {
+  font-size: 0.6rem;
+  color: rgba(68,136,255,0.3);
+  text-decoration: none;
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.25s, color 0.2s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#bio-map-container .bm-filter-row:hover .bm-filter-wiki,
+#bio-map-container .bm-filter-wiki.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#bio-map-container .bm-filter-wiki:hover { color: rgba(68,136,255,0.8); }
+
+/* ── Help / Fullscreen ───────────────────────────────────────────── */
+
+#bio-map-container .bm-help-icon {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.2s ease;
+}
+
+#bio-map-container .bm-help-icon:hover {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+}
+
+#bio-map-container .bm-help-modal {
+  display: none;
+  position: absolute;
+  top: 52px;
+  left: 16px;
+  background: rgba(1,4,8,0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 16px 20px;
+  z-index: 20;
+  backdrop-filter: blur(12px);
+  max-width: 280px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+#bio-map-container .bm-help-modal.active { display: block; }
+#bio-map-container .bm-help-modal .bm-count {
+  color: #00ff88;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+#bio-map-container .bm-help-modal .bm-desc {
+  color: rgba(192,200,208,0.6);
+  margin-bottom: 12px;
+}
+
+#bio-map-container .bm-help-modal a {
+  color: rgba(68,136,255,0.7);
+  text-decoration: none;
+  display: block;
+  margin: 3px 0;
+}
+
+#bio-map-container .bm-help-modal a:hover { color: #4488ff; }
+
+#bio-map-container .bm-fullscreen-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  transition: all 0.2s ease;
+}
+
+#bio-map-container .bm-fullscreen-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── Tooltip / User card ─────────────────────────────────────────── */
+
+.bm-tooltip {
+  position: fixed;
+  background: rgba(4, 5, 14, 0.97);
+  color: #c0c8d0;
+  padding: 0;
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  z-index: 1000;
+  min-width: 240px;
+  max-width: 280px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(24,0,173,0.15) inset;
+}
+
+.bm-tooltip.visible { opacity: 1; }
+
+/* card layout */
+.bm-user-card { padding: 14px 16px; }
+
+.bm-user-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bm-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid;
+  background: rgba(24,0,173,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bm-avatar-initials {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #c8d0e8;
+  letter-spacing: 0.04em;
+}
+
+.bm-user-info { flex: 1; min-width: 0; }
+
+.bm-user-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bm-wallet-addr {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.65rem;
+  color: rgba(160,176,200,0.6);
+  margin-top: 1px;
+}
+
+.bm-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 99px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+.bm-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.bm-status-text {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(180,190,210,0.7);
+}
+
+.bm-user-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 40%, rgba(255,255,255,0.08) 60%, transparent);
+  margin: 10px 0;
+}
+
+.bm-last-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.bm-msg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bm-msg-label {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(140,155,180,0.55);
+}
+
+.bm-msg-time {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.58rem;
+  color: rgba(140,155,180,0.4);
+  letter-spacing: 0.04em;
+}
+
+.bm-tx-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 1px;
+}
+
+.bm-tx-hash {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.68rem;
+  color: rgba(180,200,230,0.6);
+  letter-spacing: 0.04em;
+}
+
+.bm-tx-amount {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.bm-tx-type {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(140,155,180,0.45);
+  margin-top: 3px;
+  display: block;
+}
+
+/* ── Chain row ──────────────────────────────────────────────────── */
+.bm-chain-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.bm-chain-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bm-chain-label {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(120,140,170,0.45);
+}
+
+.bm-chain-value {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.65rem;
+  color: rgba(200,215,240,0.75);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ── Mobile ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #bio-map-container .bm-filters {
+    bottom: 28px;
+    left: 12px;
+    opacity: 0.8;
+    background: rgba(1,4,8,0.5);
+    border-radius: 6px;
+    padding: 6px 8px;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+  #bio-map-container .bm-filters:hover,
+  #bio-map-container .bm-filters:focus-within { opacity: 1; }
+  #bio-map-container .bm-filter-btn { font-size: 11px; padding: 2px; }
+  #bio-map-container .bm-filter-dot { width: 9px; height: 9px; }
+  #bio-map-container .bm-filter-btn.active .bm-filter-dot { width: 10px; height: 10px; }
+  #bio-map-container .bm-filter-row { padding: 0 6px 0 0; min-height: 24px; }
+  #bio-map-container .bm-filter-wiki { opacity: 0.4; pointer-events: auto; font-size: 0.6rem; }
+  #bio-map-container .bm-filter-wiki.visible { opacity: 0.9; }
+  #bio-map-container .bm-help-icon,
+  #bio-map-container .bm-fullscreen-btn { width: 36px; height: 36px; font-size: 16px; }
+  #bio-map-container .bm-help-modal { max-width: calc(100vw - 24px); font-size: 0.75rem; }
+  .bm-tooltip {
+    left: 50% !important;
+    top: auto !important;
+    bottom: 90px;
+    transform: translateX(-50%);
+    min-width: 260px;
+    max-width: 88vw;
+    font-size: 11px;
+  }
+}
